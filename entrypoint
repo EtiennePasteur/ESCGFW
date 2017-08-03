@@ -1,0 +1,17 @@
+#! /bin/bash
+
+# Sanity checks
+if [ -z "$PASSWORD_SS" ]
+then
+    echo -e "Error: No Shadowsocks password set. Set \$PASSWORD_SS"
+    exit 1
+fi
+if [ -z "$PASSWORD_KCP" ]
+then
+    echo -e "Error: No KCP password set. Set \$PASSWORD_KCP"
+    exit 1
+fi
+
+echo "[Launching obfuscated Shadowsocks server over KCP tunnel...]"
+ss-server -s 127.0.0.1 -p 8388 -k $PASSWORD_SS -m aes-256-gcm -u --plugin obfs-server --plugin-opts "obfs=tls" &
+kcptun_server -l :$PORT_KCP -t 127.0.0.1:8388 --crypt none --mtu 1200 --nocomp --dscp 46 --mode fast --key $PASSWORD_KCP --sndwnd 2048 --rcvwnd 2048
