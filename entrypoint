@@ -14,4 +14,7 @@ fi
 
 echo "[Launching obfuscated Shadowsocks server over KCP tunnel...]"
 ss-server -s 127.0.0.1 -p 8388 -k $PASSWORD_SS -m aes-256-gcm -u --plugin obfs-server --plugin-opts "obfs=tls" &
-kcptun_server -l :$PORT_KCP -t 127.0.0.1:8388 --crypt none --mtu 1200 --nocomp --dscp 46 --mode fast --key $PASSWORD_KCP --sndwnd 2048 --rcvwnd 2048
+kcptun_server -l :$PORT_KCP -t 127.0.0.1:8388 --crypt none --mtu 1200 --nocomp --dscp 46 --mode fast --key $PASSWORD_KCP --sndwnd 2048 --rcvwnd 2048 &
+
+echo "[Launching obfuscated Shadowsocks server...]"
+ss-server -s 0.0.0.0 -p $PORT_SS -k $PASSWORD_SS -m aes-256-gcm -u --plugin obfs-server --plugin-opts "obfs=tls"

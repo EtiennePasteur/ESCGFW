@@ -11,5 +11,7 @@ ADD entrypoint /
 ADD ss-server /usr/bin/
 ADD kcptun_server /usr/bin/
 ADD obfs-server /usr/bin/
+
 RUN ["chmod", "+x", "/entrypoint", "/usr/bin/ss-server", "/usr/bin/kcptun_server", "/usr/bin/obfs-server"]
+
 ENTRYPOINT ["/entrypoint"]
